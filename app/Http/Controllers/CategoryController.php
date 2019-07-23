@@ -26,10 +26,6 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $data['title']='Create new category';
-        return view('admin.category.create', $data);
-    }
 
     /**
      * Store a newly created resource in storage.
