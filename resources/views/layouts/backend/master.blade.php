@@ -29,9 +29,9 @@
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>  --}}
     </section>
-
+    @include('layouts.backend._messages')
     <!-- Main content -->
-  <section class="content">
+  <section class="content">      
       @yield('content')      
 	</section>
     <!-- /.content -->
