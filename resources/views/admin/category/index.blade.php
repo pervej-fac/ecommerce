@@ -29,16 +29,29 @@
                       <td><span class="label {{ ($category->status=='active')?'label-info':'label-warning' }}">{{ $category->status }} </span></td>
                       <td>
                         <a href="{{ route('category.edit',$category->id) }}" class="btn btn-sm btn-info">Edit</a>
-                        <form method="post" action="{{ route('category.destroy',$category->id) }}" style="display:inline">
-                          @csrf
-                          @method('delete')
-                          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>
-                        </form>
+                        @if ($category->deleted_at==null)
+                          <form method="post" action="{{ route('category.destroy',$category->id) }}" style="display:inline">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Do you want to delete?')">Delete</button>
+                            </form>
+                        @else
+                          <form method="post" action="{{ route('category.restore',$category->id) }}" style="display:inline">
+                              @csrf
+                              <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Do you want to restore?')">Restore</button>
+                          </form>
+                          <form method="post" action="{{ route('category.delete',$category->id) }}" style="display:inline">
+                              @csrf
+                              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Do you want to permanent delete?')">Permanet Delete</button>
+                          </form>
+                        @endif                     
+                        
                     </td>
                   </tr>
                 @endforeach                
               </table>
             </div>
+            {{ $categories->render() }}
         </div>
         <!-- /.box-body -->
       </div>

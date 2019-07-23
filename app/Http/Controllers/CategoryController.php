@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data['title']='Category List';
-        $data['categories']=Category::orderBy('id','DESC')->paginate(2);
+        $data['categories']=Category::withTrashed()->orderBy('id','DESC')->paginate(2);
         // dd($data);
         return view('admin.category.index', $data);
     }
@@ -26,6 +26,10 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+    {
+        $data['title']='Create new category';
+        return view('admin.category.create', $data);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -100,6 +104,20 @@ class CategoryController extends Controller
     {
         $category->delete();
         session()->flash('message','Category deleted successfully');
+        return redirect()->route('category.index');
+    }
+    public function restore($id)
+    {
+        $category=Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+        session()->flash('message','Category restored successfully');
+        return redirect()->route('category.index');
+    }
+    public function delete($id)
+    {
+        $category=Category::onlyTrashed()->findOrFail($id);
+        $category->forceDelete();
+        session()->flash('message','Category permanently deleted successfully');
         return redirect()->route('category.index');
     }
 }
