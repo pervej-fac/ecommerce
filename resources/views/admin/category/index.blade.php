@@ -26,14 +26,14 @@
             <div class="table-responsive">
               <table class="table table-hover">
                 <tr>
-                  <th>Id</th>
+                  <th>Serial</th>
                   <th>Name</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 @foreach ($categories as $category)
                   <tr>
-                      <td>{{ $category->id }}</td>
+                      <td>{{ $serial++ }}</td>
                       <td>{{ $category->name }}</td>
                       <td><span class="label {{ ($category->status=='active')?'label-info':'label-warning' }}">{{ $category->status }} </span></td>
                       <td>
