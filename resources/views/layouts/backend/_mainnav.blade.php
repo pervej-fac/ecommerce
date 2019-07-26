@@ -1,5 +1,5 @@
 <section class="sidebar">
-      
+
     <!-- sidebar menu-->
     <ul class="sidebar-menu" data-widget="tree">
       <li class="user-profile treeview">
@@ -37,8 +37,9 @@
         </a>
         <ul class="treeview-menu">
           <li><a href="{{ route('category.index') }}"><i class="fa fa-circle-thin"></i>Categories</a></li>
+          <li><a href="{{ route('brand.index') }}"><i class="fa fa-circle-thin"></i>Brands</a></li>
         </ul>
       </li>
-      
+
     </ul>
   </section>
