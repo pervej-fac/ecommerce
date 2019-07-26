@@ -32,18 +32,18 @@
 	  </div>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-		  
+
 		  <li class="search-box">
             <a class="nav-link hidden-sm-down" href="javascript:void(0)"><i class="mdi mdi-magnify"></i></a>
             <form class="app-search" style="display: none;">
                 <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
 			</form>
-          </li>			
-		  
+          </li>
+
           <!-- Messages -->
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="mdi mdi-email"></i>
+              <i class="fa fa-envelope-open"></i>
             </a>
             <ul class="dropdown-menu scale-up">
               <li class="header">You have 5 messages</li>
@@ -129,7 +129,7 @@
           <!-- Notifications -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="mdi mdi-bell"></i>
+              <i class="fa fa-bell"></i>
             </a>
             <ul class="dropdown-menu scale-up">
               <li class="header">You have 7 notifications</li>
@@ -163,7 +163,7 @@
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-user text-red"></i> Nunc fringilla lorem 
+                      <i class="fa fa-user text-red"></i> Nunc fringilla lorem
                     </a>
                   </li>
                   <li>
@@ -179,7 +179,7 @@
           <!-- Tasks-->
           <li class="dropdown tasks-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="mdi mdi-message"></i>
+              <i class="fa fa-envelope"></i>
             </a>
             <ul class="dropdown-menu scale-up">
               <li class="header">You have 6 tasks</li>
@@ -318,7 +318,7 @@
 				<div role="separator" class="divider col-12"></div>
 				  <div class="col-12 text-left">
                     <a href="#"><i class="fa fa-power-off"></i> Logout</a>
-                  </div>				
+                  </div>
                 </div>
                 <!-- /.row -->
               </li>

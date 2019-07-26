@@ -10,6 +10,9 @@
 <!-- Bootstrap 4.0-->
 <link rel="stylesheet" href="{{ asset('vendors/bootstrap/dist/css/bootstrap.css') }}">
 
+<!-- Font Awesome 4.0-->
+<link rel="stylesheet" href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}">
+
 <!-- Bootstrap extend-->
 <link rel="stylesheet" href="{{ asset('assets/backend/css/bootstrap-extend.css') }}">
 
