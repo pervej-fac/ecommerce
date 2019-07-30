@@ -28,6 +28,8 @@
                 <tr>
                   <th>Serial</th>
                   <th>Name</th>
+                  <th>Price</th>
+                  <th>Stock</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -35,10 +37,13 @@
                   <tr>
                       <td>{{ $serial++ }}</td>
                       <td>{{ $product->name }}</td>
-                      <td>{{ $product->description }}</td>
+                      <td>{{ $product->price }}</td>
+                      <td>{{ $product->stock }}</td>
                       <td><span class="label {{ ($product->status=='active')?'label-info':'label-warning' }}">{{ $product->status }} </span></td>
                       <td>
+                        <a href="{{ route('product.show',$product->id) }}" class="btn btn-sm btn-info">Details</a>
                         <a href="{{ route('product.edit',$product->id) }}" class="btn btn-sm btn-info">Edit</a>
+
                         @if ($product->deleted_at==null)
                           <form method="post" action="{{ route('product.destroy',$product->id) }}" style="display:inline">
                               @csrf
@@ -52,6 +57,7 @@
                           </form>
                           <form method="post" action="{{ route('product.delete',$product->id) }}" style="display:inline">
                               @csrf
+                              @method('delete')
                               <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Do you want to permanent delete?')">Permanet Delete</button>
                           </form>
                         @endif                     

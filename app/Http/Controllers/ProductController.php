@@ -83,7 +83,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $data['title']='Product Details';
+        $data['product']=$product;
+        $data['categories']=Category::orderBy('name','ASC')->pluck('name','id');
+        $data['brands']=Brand::orderBy('name','ASC')->pluck('name','id');
+        return view('admin.product.show', $data);
     }
 
     /**
@@ -133,6 +137,22 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        session()->flash('message','Product deleted successfully');
+        return redirect()->route('product.index');
+    }
+    public function restore($id)
+    {
+        $product=Product::onlyTrashed()->findOrFail($id);
+        $product->restore();
+        session()->flash('message','Product restored successfully');
+        return redirect()->route('product.index');
+    }
+    public function delete($id)
+    {
+        $product=Product::onlyTrashed()->findOrFail($id);
+        $product->forceDelete();
+        session()->flash('message','Product permanently deleted successfully');
+        return redirect()->route('product.index');
     }
 }
