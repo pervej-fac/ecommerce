@@ -38,6 +38,19 @@
                         <th>Details</th>
                         <td>{{ $product->description }}</td>
                     </tr>
+                    <tr>
+                        <th>Images</th>
+                        <td>
+                            
+                            @if (count($product->product_image))
+                                @foreach ($product->product_image as $image)
+                                    <img src="{{ asset($image->file_path) }}" alt="no image" style="width:20%">
+                                @endforeach
+                                
+                            @endif
+                            
+                        </td>
+                    </tr>
                   </table>
                   <a href="{{ route('product.index') }}" class="btn btn-info">Back</a>
                 </div>

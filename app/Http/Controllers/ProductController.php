@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\ProductImage;
 use App\Category;
 use App\Brand;
 use Illuminate\Http\Request;
@@ -66,10 +67,24 @@ class ProductController extends Controller
             'price'=>'required | numeric',
             'stock'=>'required | numeric',
             'status'=>'required',
+            'images.*'=>'image'
         ]);
-        $product=$request->except('_token');
+        $product=$request->except('_token','images');
         $product['created_by']=1;
-        Product::create($product);
+        $product=Product::create($product);
+
+        if(count($request->images)>=1){
+            foreach($request->images as $image){
+                // $path='images/products';
+                $product_image['product_id']=$product->id;
+                /*Custom file name */
+                $file_name=$product->id.'-'.time().'-'.rand(0000,9999).'.'.$image->getClientOriginalExtension();
+                $image->move('images/products/',$file_name);
+                $product_image['file_path']='images/products/'.$file_name;
+                ProductImage::create($product_image);
+            }
+        }
+
         session()->flash('message','Product created successfully');
         return redirect()->route('product.index');
 
@@ -81,10 +96,10 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
         $data['title']='Product Details';
-        $data['product']=$product;
+        $data['product']=Product::with(['brand','category','product_image'])->findOrFail($id);        
         $data['categories']=Category::orderBy('name','ASC')->pluck('name','id');
         $data['brands']=Brand::orderBy('name','ASC')->pluck('name','id');
         return view('admin.product.show', $data);
