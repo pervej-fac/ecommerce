@@ -27,7 +27,7 @@ class ProductController extends Controller
         if ($request->has('status') && $request->status != null) {
             $product=$product->where('status',$request->status);
         }
-        $product=$product->orderBy('id','DESC')->paginate(3);
+        $product=$product->orderBy('id','DESC')->paginate(10);
         $data['products']=$product;
 
         if ($request->search || $request->status) {
