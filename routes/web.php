@@ -28,6 +28,9 @@ Route::middleware('auth')->group(function() {
     Route::post('product/{id}/restore','ProductController@restore')->name('product.restore');
     Route::delete('product/{id}/delete','ProductController@delete')->name('product.delete');
     Route::get('product/{image_id}/delete/image','ProductController@delete_image')->name('product.delete.image');
+
+    Route::resource('user', 'UserController');
+    
 });
 
 Auth::routes();
