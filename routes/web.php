@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function() {
     Route::get('product/{image_id}/delete/image','ProductController@delete_image')->name('product.delete.image');
 
     Route::resource('user', 'UserController');
+    Route::post('user/{id}/restore','UserController@restore')->name('user.restore');
+    Route::delete('user/{id}/delete','UserController@delete')->name('user.delete');
     
 });
 

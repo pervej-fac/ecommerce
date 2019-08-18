@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use File;
 
 class UserController extends Controller
 {
@@ -43,7 +44,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $data['title']='Create new user';
+        return view('admin.user.create', $data);
     }
 
     /**
@@ -54,7 +56,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'type'=>'required',
+            'name'=>'required',            
+            'email'=>'required|email|unique:users',
+            'password'=>'required|confirmed',
+            'status'=>'required'
+        ]);
+        
+        $user_req=$request->except('_token','password');
+        if($request->has('password')){
+            $user_req['password']=bcrypt($request->password);
+        }
+        $user['created_by']=1;
+
+        if($request->hasFile('image')){
+            $file=$request->file('image');
+            $file->move('images/users/',$file->getClientOriginalName());
+            $user_req['image']='images/users/'.$file->getClientOriginalName();
+        }
+
+        User::create($user_req);
+
+        session()->flash('message','User created successfully');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -76,7 +101,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['title']='Edit User';
+        $data['user']=User::findOrFail($id);
+        return view('admin.user.edit', $data);
     }
 
     /**
@@ -86,9 +113,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'type'=>'required',
+            'name'=>'required',            
+            'email'=>'sometimes|required|email|unique:users,email,'.$user->id,
+            'status'=>'required',
+            'password'=>'confirmed'
+        ]);
+        $user_req=$request->except('_token','password');
+        if($request->has('password')){
+            $user_req['password']=bcrypt($request->password);
+        }
+        $user_req['updated_by']=1;
+        if($request->hasFile('image')){
+            $file=$request->file('image');
+            $file->move('images/users/',$file->getClientOriginalName());
+            File::delete($user->image);
+            $user_req['image']='images/users/'.$file->getClientOriginalName();
+        }
+        $user->update($user_req);
+        session()->flash('message','User updated successfully');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -97,8 +144,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        session()->flash('message','User deleted successfully');
+        return redirect()->route('user.index');
+    }
+    public function restore($id)
+    {
+        $user=User::onlyTrashed()->findOrFail($id);
+        $user->restore();
+        session()->flash('message','User restored successfully');
+        return redirect()->route('user.index');
+    }
+    public function delete($id)
+    {
+        $user=User::onlyTrashed()->findOrFail($id);
+        File::delete($user->image);
+        $user->forceDelete();
+        session()->flash('message','User permanently deleted successfully');
+        return redirect()->route('user.index');
     }
 }
